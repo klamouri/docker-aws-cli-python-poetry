@@ -1,0 +1,70 @@
+when_release: &when_release
+  when:
+    ref:
+      - refs/tags/v*
+
+when_stage: &when_stage
+  when:
+    ref:
+      include:
+        - refs/heads/main
+      exclude:
+        - refs/tags/v*
+
+when_dev: &when_dev
+  when:
+    ref:
+      exclude:
+        - refs/tags/v*
+        - refs/heads/main
+
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: docker-aws-cli-python-poetry_docker-aws-cli-python-poetry_prod
+    image: plugins/docker
+    settings:
+      username: karimlamouri
+      password:
+        from_secret: docker_password
+      repo: karimlamouri/docker-aws-cli-python-poetry_docker-aws-cli-python-poetry
+      build_args:
+        - PYTHON_VERSION=3.9
+        - AWS_CLI_VERSION=2.2.18
+        - POETRY_VERION=1.1.7
+      tags:
+        - latest
+        - ${DRONE_TAG##v}-3.9-2.2.18-1.1.7
+    <<: *when_release
+
+  - name: docker-aws-cli-python-poetry_docker-aws-cli-python-poetry_stage
+    image: plugins/docker
+    settings:
+      username: karimlamouri
+      password:
+        from_secret: docker_password
+      repo: karimlamouri/docker-aws-cli-python-poetry_docker-aws-cli-python-poetry
+      build_args:
+        - PYTHON_VERSION=3.9
+        - AWS_CLI_VERSION=2.2.18
+        - POETRY_VERION=1.1.7
+      tags:
+        - stage-3.9-2.2.18-1.1.7
+    <<: *when_stage
+
+  - name: docker-aws-cli-python-poetry_docker-aws-cli-python-poetry_dev
+    image: plugins/docker
+    settings:
+      username: karimlamouri
+      password:
+        from_secret: docker_password
+      repo: karimlamouri/docker-aws-cli-python-poetry_docker-aws-cli-python-poetry
+      build_args:
+        - PYTHON_VERSION=3.9
+        - AWS_CLI_VERSION=2.2.18
+        - POETRY_VERION=1.1.7
+      tags:
+        - SNAPSHOT-${DRONE_BRANCH}-3.9-2.2.18-1.1.7
+    <<: *when_dev
