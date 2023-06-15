@@ -32,11 +32,11 @@ steps:
       repo: karimlamouri/docker-aws-cli-python-poetry_docker-aws-cli-python-poetry
       build_args:
         - PYTHON_VERSION=3.9
-        - AWS_CLI_VERSION=2.2.18
-        - POETRY_VERION=1.1.7
+        - AWS_CLI_VERSION=2.11.27
+        - POETRY_VERSION=1.5.1
       tags:
         - latest
-        - ${DRONE_TAG##v}-3.9-2.2.18-1.1.7
+        - ${DRONE_TAG##v}-3.9-2.11.27-1.5.1
     <<: *when_release
 
   - name: docker-aws-cli-python-poetry_docker-aws-cli-python-poetry_stage
@@ -48,10 +48,10 @@ steps:
       repo: karimlamouri/docker-aws-cli-python-poetry_docker-aws-cli-python-poetry
       build_args:
         - PYTHON_VERSION=3.9
-        - AWS_CLI_VERSION=2.2.18
-        - POETRY_VERION=1.1.7
+        - AWS_CLI_VERSION=2.11.27
+        - POETRY_VERSION=1.5.1
       tags:
-        - stage-3.9-2.2.18-1.1.7
+        - stage-3.9-2.11.27-1.5.1
     <<: *when_stage
 
   - name: docker-aws-cli-python-poetry_docker-aws-cli-python-poetry_dev
@@ -63,8 +63,8 @@ steps:
       repo: karimlamouri/docker-aws-cli-python-poetry_docker-aws-cli-python-poetry
       build_args:
         - PYTHON_VERSION=3.9
-        - AWS_CLI_VERSION=2.2.18
-        - POETRY_VERION=1.1.7
+        - AWS_CLI_VERSION=2.11.27
+        - POETRY_VERSION=1.5.1
       tags:
-        - SNAPSHOT-${DRONE_BRANCH}-3.9-2.2.18-1.1.7
+        - SNAPSHOT-${DRONE_BRANCH}-3.9-2.11.27-1.5.1
     <<: *when_dev
